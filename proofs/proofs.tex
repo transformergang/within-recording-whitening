@@ -1,0 +1,96 @@
+\documentclass[10pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Cm}{\mathrm{C7}^{-}}
+\title{Proofs for the Nested Nuisance Model\\[6pt]\large Companion note to ``Within-Recording Whitening with Optional Source\\ Fine-Tuning for Clustering Unseen Ship-Noise Corpora''}
+\author{}
+\date{}
+\begin{document}
+\maketitle
+
+\noindent This note states the assumptions and gives the proofs of the propositions used in the paper. Proposition~2 is the classical connectedness condition of two-way layouts without interaction; it is included for completeness and is not claimed as new.
+
+\section{Model and notation}
+Recording $i=1,\dots,N$ has $n_i$ windows with feature vectors
+\[
+z_{it}=\mu_{y_i}+a_{s_i}+h_{q_i}+c_i+w_{it},\qquad t=1,\dots,n_i ,
+\]
+where $y_i$ is the class, $s_i$ the vessel and $q_i$ the session of recording $i$. The design $(y_i,s_i,q_i,n_i)$ is fixed. The class means $\mu_y$ are fixed vectors. The vessel effects $a_s$, session effects $h_q$ and recording effects $c_i$ are mutually independent, zero-mean random vectors with covariances $\Sigma_a$, $\Sigma_h$, $\Sigma_c$, and independent of the within-recording parts $w_{it}$, which satisfy $\E[w_{it}\mid i]=0$.
+
+Write $\bar z_i=n_i^{-1}\sum_t z_{it}$ and $\bar w_i=n_i^{-1}\sum_t w_{it}$. The pooled within-recording covariance and the between-recording covariance are
+\[
+\Sigma_e=\frac{1}{\sum_i (n_i-1)}\sum_i\sum_t (z_{it}-\bar z_i)(z_{it}-\bar z_i)^{\top},\qquad
+S_B=\frac{1}{N-1}\sum_i(\bar z_i-\bar z)(\bar z_i-\bar z)^{\top},\quad \bar z=\frac1N\sum_i\bar z_i .
+\]
+(The method rescales $\Sigma_e$ to unit trace and shrinks it; this does not affect the statements below.)
+
+Additional assumptions are used only where stated:
+\begin{itemize}
+\item[(A0)] the windows of a recording are uncorrelated and have a common covariance $\Sigma_w$;
+\item[(A2)] $S$ is an orthogonal projector with $S\Sigma_hS=\Sigma_h$ (session effects lie in the range of $S$).
+\end{itemize}
+
+\section{Proposition 1 (covariance visibility)}
+\begin{proposition}
+(a) $z_{it}-\bar z_i=w_{it}-\bar w_i$ for every $i,t$; hence $\Sigma_e$ is a function of the $w_{it}$ alone and does not depend on $\mu$, $a$, $h$ or $c$. Under (A0), $\E[\Sigma_e]=\Sigma_w$.
+
+(b) Under (A0),
+\[
+\E[S_B]=S_\mu+\lambda_a\Sigma_a+\lambda_h\Sigma_h+\Sigma_c+\lambda_w\Sigma_w ,
+\]
+where $S_\mu=\frac1{N-1}\sum_i(\mu_{y_i}-\bar\mu)(\mu_{y_i}-\bar\mu)^{\top}$ with $\bar\mu=\frac1N\sum_i\mu_{y_i}$, $\lambda_a=\bigl(N-\sum_sN_s^2/N\bigr)/(N-1)$ with $N_s$ the number of recordings of vessel $s$, $\lambda_h$ is defined in the same way from the session sizes, and $\lambda_w=\frac1N\sum_i 1/n_i$.
+
+(c) Let $d_i$ be any vector that is constant within recording $i$ and put $\tilde z_{it}=z_{it}+d_i$. Then $\Sigma_e(\tilde z)=\Sigma_e(z)$. If $d_i=r-S\bar z_i$ for a fixed vector $r$ and a linear map $S$, then $S_B(\tilde z)=(I-S)\,S_B(z)\,(I-S)^{\top}$ exactly.
+\end{proposition}
+\begin{proof}
+(a) The four terms $\mu_{y_i},a_{s_i},h_{q_i},c_i$ do not depend on $t$, so they cancel in $z_{it}-\bar z_i$. Under (A0), $\E\sum_t(w_{it}-\bar w_i)(w_{it}-\bar w_i)^{\top}=(n_i-1)\Sigma_w$, and summing over $i$ gives $\E[\Sigma_e]=\Sigma_w$.
+
+(b) $\bar z_i=\mu_{y_i}+a_{s_i}+h_{q_i}+c_i+\bar w_i$. The five terms are mutually independent and the last four have zero mean, so the expectation of $\sum_i(\bar z_i-\bar z)(\bar z_i-\bar z)^{\top}$ is the sum of the expectations of the corresponding sums for each term; the fixed term gives $(N-1)S_\mu$. For a grouped effect, say $a$, let $\bar a=\frac1N\sum_i a_{s_i}=\sum_s\frac{N_s}{N}a_s$. Then
+\[
+\sum_i(a_{s_i}-\bar a)(a_{s_i}-\bar a)^{\top}=\sum_sN_s\,a_sa_s^{\top}-N\,\bar a\bar a^{\top},
+\]
+and since the $a_s$ are independent with covariance $\Sigma_a$, $\E[\bar a\bar a^{\top}]=\sum_s\frac{N_s^2}{N^2}\Sigma_a$, so the expectation is $\bigl(N-\sum_sN_s^2/N\bigr)\Sigma_a$. Dividing by $N-1$ gives $\lambda_a\Sigma_a$; the same computation gives $\lambda_h\Sigma_h$. For $c$ every group has size one, so the factor is $(N-1)/(N-1)=1$. For $\bar w_i$, under (A0) the vectors $\bar w_i$ are independent with covariance $\Sigma_w/n_i$, and the same computation with unequal variances gives $\E\sum_i(\bar w_i-\bar w)(\bar w_i-\bar w)^{\top}=\bigl(1-\frac1N\bigr)\sum_i\Sigma_w/n_i=(N-1)\lambda_w\Sigma_w$.
+
+(c) $\tilde z_{it}-\bar{\tilde z}_i=z_{it}-\bar z_i$ because $d_i$ does not depend on $t$. For the equalizer, $\bar{\tilde z}_i=(I-S)\bar z_i+r$, hence $\bar{\tilde z}_i-\bar{\tilde z}=(I-S)(\bar z_i-\bar z)$ and the claim follows.
+\end{proof}
+
+\begin{corollary}[amplification]
+Along a direction $v$, the ratio of the expected between-recording to the expected within-recording quadratic form is
+$v^{\top}(S_\mu+\lambda_a\Sigma_a+\lambda_h\Sigma_h+\Sigma_c+\lambda_w\Sigma_w)v\,/\,v^{\top}\Sigma_wv$ under (A0). The vessel, session and recording layers enter the numerator only. Whitening by $\Sigma_e$ and keeping the leading generalized eigendirections therefore favours directions in which these recording-constant layers are large relative to $\Sigma_w$, whether or not they carry class information.
+\end{corollary}
+\noindent This is a statement about the ratio of expectations, not about the expected eigenvalues of the sample problem.
+
+\begin{corollary}[cost of equalization]
+Under (A2), the equalizer of Proposition~1(c) removes the session layer, $(I-S)\Sigma_h(I-S)=0$, and maps a class contrast $\Delta\mu=\mu_y-\mu_{y'}$ to $(I-S)\Delta\mu$, whose squared Euclidean norm is $(1-\phi)\|\Delta\mu\|^2$ with $\phi=\|S\Delta\mu\|^2/\|\Delta\mu\|^2$.
+\end{corollary}
+\begin{proof}
+$S\Sigma_hS=\Sigma_h$ with $S$ an orthogonal projector gives $(I-S)\Sigma_h(I-S)=(I-S)S\Sigma_hS(I-S)=0$. Orthogonality of $S\Delta\mu$ and $(I-S)\Delta\mu$ gives $\|(I-S)\Delta\mu\|^2=\|\Delta\mu\|^2-\|S\Delta\mu\|^2$.
+\end{proof}
+\noindent $\phi$ is a Euclidean energy fraction; it is not the fraction in the metric used by the generalized eigenproblem.
+
+\section{Proposition 2 (classes that never share a session)}
+Consider the recording means under the reduced model $\bar x_i=\mu_{y_i}+h_{q_i}+u_i$, with no class$\times$session interaction, sessions known, and $u_i$ zero-mean noise whose distribution does not depend on $(y_i,q_i)$. Form the bipartite graph whose vertices are the classes and the sessions, with an edge between class $y$ and session $q$ whenever some recording has $(y_i,q_i)=(y,q)$. Its connected components partition the classes and the sessions; two classes are in the same component if and only if they are linked by a chain of classes in which consecutive classes share a session.
+
+\begin{proposition}
+(i) For any vectors $\delta_1,\dots,\delta_r$, one per connected component, the parameters $(\mu,h)$ and $(\mu',h')$ with $\mu'_y=\mu_y+\delta_{k(y)}$ and $h'_q=h_q-\delta_{k(q)}$ give the same distribution of the data, where $k(\cdot)$ is the component of a class or session. Consequently, with session effects treated as unknown fixed vectors, a contrast $\mu_y-\mu_{y'}$ between classes in different components is not identifiable, with or without labels, and no estimator, labelled or label-free, is consistent for it.
+
+(ii) A contrast between two classes in the same component is estimable from cell means.
+
+(iii) Let the $h_q$ be i.i.d.\ with covariance $\Sigma_h$ and let every occupied class--session cell contain infinitely many recordings. For $y$ in a component with $M_1$ sessions and $y'$ in a different component with $M_2$ sessions, the best linear unbiased estimator of $\mu_y-\mu_{y'}$ has error covariance exactly $(1/M_1+1/M_2)\Sigma_h$.
+\end{proposition}
+\begin{proof}
+(i) For every recording, $y_i$ and $q_i$ are joined by an edge and therefore lie in the same component $k$, so $\mu'_{y_i}+h'_{q_i}=\mu_{y_i}+\delta_k+h_{q_i}-\delta_k=\mu_{y_i}+h_{q_i}$. Here the session effects are treated as unknown fixed vectors, so the data distribution depends on $(\mu,h)$ only through these sums. Taking $\delta_k\neq\delta_{k'}$ changes $\mu_y-\mu_{y'}$ for $y,y'$ in components $k\neq k'$ without changing the distribution, which is non-identifiability. A label-free method observes less than a labelled one, so it cannot identify the contrast either.
+
+(ii) If $y$ and $y'$ are joined by a path $y=y_0,q_1,y_1,\dots,q_m,y_m=y'$, then with $\theta_{yq}=\mu_y+h_q$ the expected cell mean,
+$\mu_y-\mu_{y'}=\sum_{j=1}^{m}(\theta_{y_{j-1}q_j}-\theta_{y_jq_j})$, a linear function of estimable cell means.
+
+(iii) With infinitely many recordings per occupied cell the cell means $\theta_{yq}=\mu_y+h_q$ are known exactly. Inside a component, by (ii) all class differences and all session differences are known, so the component carries exactly the information $\{\mu_y+h_q: q \text{ in the component}\}$ about $\mu_y$, that is, $M_1$ observations $\mu_y+h_q$ with i.i.d.\ zero-mean errors $h_q$ of covariance $\Sigma_h$. Their mean is the best linear unbiased estimator of $\mu_y$ and has covariance $\Sigma_h/M_1$. The same holds for $\mu_{y'}$ in the other component with $\Sigma_h/M_2$, and the two components involve disjoint, independent sets of session effects. The difference of the two estimators is therefore the best linear unbiased estimator of the contrast, with covariance $(1/M_1+1/M_2)\Sigma_h$.
+\end{proof}
+\noindent In (iii) the session effects are random with mean zero, which is what makes the contrast estimable at all; the floor does not shrink with the number of recordings, only with the number of sessions. For ShipsEar, the vessel classes A--D form one component with $M_1=6$ recording dates and the background-noise class E another with $M_2=2$, giving $(1/6+1/2)\Sigma_h=\tfrac23\Sigma_h$. The identification of these two components was made after the class--date table had been seen (post hoc).
+
+\section{Scope}
+The model is linear in the feature domain. For frozen or fine-tuned encoders, whose embeddings are nonlinear functions of the audio, the statements above describe the covariance statistics that the whitening uses and are qualitative as descriptions of the embedding geometry. Proposition~1(c) applies to a front end that is an additive, recording-constant offset in the feature domain (for example a smooth spectral equalizer in the log-spectral domain).
+\end{document}
