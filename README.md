@@ -2,7 +2,7 @@
 
 Companion material for the paper
 
-> *Clustering Unseen Ship-Noise Corpora with Audio Foundation Models: A Cross-Corpus Whitening and Fine-Tuning Approach*
+> *Cross-Corpus Clustering of Ship-Radiated Noise with Audio Foundation Models via Target Whitening and Source Fine-Tuning*
 > (submitted to IEEE ISCAS 2027).
 
 The paper has four pages of technical content. This repository holds what does not fit there: the proofs,
