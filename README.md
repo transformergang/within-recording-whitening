@@ -2,7 +2,7 @@
 
 Companion material for the paper
 
-> *Clustering Unseen Ship-Noise Corpora with Audio Foundation Models: Target Statistics Matter More Than Source Labels*
+> *Clustering Unseen Ship-Noise Corpora with Audio Foundation Models: A Cross-Corpus Whitening and Fine-Tuning Approach*
 > (submitted to IEEE ISCAS 2027).
 
 The paper has four pages of technical content. This repository holds what does not fit there: the proofs,
@@ -18,7 +18,7 @@ in the tables and in the code.
 |---|---|
 | `proofs/proofs.pdf` (`proofs.tex`) | Assumptions and proofs of Propositions 1 and 2, including two consequences that the paper only summarizes: the recording-constant equalizer (Proposition 1(c)) and the error covariance of contrasts across components. |
 | `protocol.md` | Details of the fine-tuning step, of the compared methods (settings, grids, selection rules) and of the bootstrap. |
-| `tables/main_comparison.md` | Every row of Tables I and II for the four target corpora: AMI, accuracy, and the differences to FT+C7- and to C7- with 95% bootstrap intervals. |
+| `tables/main_comparison.md` | Every row of Table I for the four target corpora: AMI, accuracy, and the differences to FT+C7- and to C7- with 95% bootstrap intervals. |
 | `tables/ablation.md` | Ablations of the label-free part on frozen BEATs: whitening without the reduction, whitening by the total scatter, and the shuffled-window control. |
 | `tables/encoders.md` | C7- against the baseline C2 for five frozen encoders (BEATs, AudioMAE, EAT, CLAP, Dasheng) on the four corpora. |
 | `tables/sensitivity.md` | Post hoc sensitivity analyses: misspecified K, number of kept directions, shrinkage coefficient, covariance estimator, windows per recording, fine-tuning seeds. |
