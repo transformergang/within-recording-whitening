@@ -2,18 +2,24 @@
 
 Companion material for the paper
 
-> *Within-Recording Whitening with Optional Source Fine-Tuning for Clustering Unseen Ship-Noise Corpora*
+> *Clustering Unseen Ship-Noise Corpora with Audio Foundation Models: Target Statistics Matter More Than Source Labels*
 > (submitted to IEEE ISCAS 2027).
 
 The paper has four pages of technical content. This repository holds what does not fit there: the proofs,
-the full tables, the digests of the sealed analysis plans, and a reference implementation of the core method.
+the protocol details, the full tables, the digests of the sealed analysis plans, and a reference implementation of
+the core method.
+
+**Names.** The paper's *Baseline*, *WR* (whitening and reduction) and *FT+WR* are called `C2`, `C7-` and `FT+C7-`
+in the tables and in the code.
 
 ## Contents
 
 | path | what it is |
 |---|---|
-| `proofs/proofs.pdf` (`proofs.tex`) | Assumptions and proofs of Propositions 1 and 2 and of the two consequences stated in the paper. |
+| `proofs/proofs.pdf` (`proofs.tex`) | Assumptions and proofs of Propositions 1 and 2, including two consequences that the paper only summarizes: the recording-constant equalizer (Proposition 1(c)) and the error covariance of contrasts across components. |
+| `protocol.md` | Details of the fine-tuning step, of the compared methods (settings, grids, selection rules) and of the bootstrap. |
 | `tables/main_comparison.md` | Every row of Tables I and II for the four target corpora: AMI, accuracy, and the differences to FT+C7- and to C7- with 95% bootstrap intervals. |
+| `tables/ablation.md` | Ablations of the label-free part on frozen BEATs: whitening without the reduction, whitening by the total scatter, and the shuffled-window control. |
 | `tables/encoders.md` | C7- against the baseline C2 for five frozen encoders (BEATs, AudioMAE, EAT, CLAP, Dasheng) on the four corpora. |
 | `tables/sensitivity.md` | Post hoc sensitivity analyses: misspecified K, number of kept directions, shrinkage coefficient, covariance estimator, windows per recording, fine-tuning seeds. |
 | `tables/model_checks.md` | Checks of the nested nuisance model on real and synthetic data; the ShipsEar class-by-date table. |
@@ -30,7 +36,8 @@ For the target corpus only, and without any label:
 4. `W = Sigma~^(-1/2) U`, where `U` holds the top `2K` eigenvectors of `Sigma~^(-1/2) S_B Sigma~^(-1/2)`.
 5. The recording embeddings `W^T m_i` are clustered by k-means (k-means++, 20 restarts, `K` given).
 
-This is Fisher's criterion with recordings in place of classes.
+This is Fisher's criterion with recordings in place of classes. The whitening (steps 1 and 2) follows the earlier
+single-corpus work cited in the paper; the reduction (steps 3 and 4) is added here.
 
 ```python
 import numpy as np
