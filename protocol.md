@@ -25,12 +25,12 @@ Details that the four-page paper only summarizes. Names: the paper's *Baseline*,
 - A batch holds 64 recordings with two windows each from one source corpus; corpora alternate.
 - Loss: supervised contrastive, temperature 0.1, projection 768 -> 256 -> 128. Positives share a class but differ in
   dependency group and session. Labels are never compared across corpora.
-- Optional recording discriminator behind a gradient-reversal layer with weight `lambda` in {0, 0.5}. `lambda` is
+- Optional recording discriminator behind a gradient-reversal layer with weight `beta` in {0, 0.5}. `beta` is
   selected inside the three source corpora by leave-one-source-out validation; the selected value was 0 with DeepShip or
   HearMyShip as the target and 0.5 with ShipsEar or VLIZ as the target.
 - AdamW, learning rate 2e-5 for the layers and 1e-3 for the heads, weight decay 0.01, 1500 steps, at most eight windows
   per recording.
-- The target takes no part in fine-tuning or in the choice of `lambda`.
+- The target takes no part in fine-tuning or in the choice of `beta`.
 - The main tables use one fine-tuning seed; two more are in `tables/sensitivity.md`.
 - Shuffled-label control: the same training with the class labels permuted inside every source corpus.
 
