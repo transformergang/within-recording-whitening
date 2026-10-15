@@ -16,12 +16,13 @@ in the tables and in the code.
 
 | path | what it is |
 |---|---|
-| `proofs/proofs.pdf` (`proofs.tex`) | Assumptions and proofs of Propositions 1 and 2, including two consequences that the paper only summarizes: the recording-constant equalizer (Proposition 1(c)) and the error covariance of contrasts across components. |
+| `proofs/proofs.pdf` (`proofs.tex`) | Assumptions and proofs of Propositions 1 and 2, including two consequences that the paper only summarizes: the recording-constant equalizer (Proposition 1(c)) and the error covariance of contrasts across components (Corollary 1 of the paper). |
 | `protocol.md` | Details of the fine-tuning step, of the compared methods (settings, grids, selection rules) and of the bootstrap. |
 | `tables/main_comparison.md` | Every row of Table I for the four target corpora: AMI, accuracy, and the differences to FT+C7- and to C7- with 95% bootstrap intervals. |
 | `tables/ablation.md` | Ablations of the label-free part on frozen BEATs: whitening without the reduction, whitening by the total scatter, and the shuffled-window control. |
 | `tables/encoders.md` | C7- against the baseline C2 for five frozen encoders (BEATs, AudioMAE, EAT, CLAP, Dasheng) on the four corpora. |
 | `tables/sensitivity.md` | Post hoc sensitivity analyses: misspecified K, number of kept directions, shrinkage coefficient, covariance estimator, windows per recording, fine-tuning seeds. |
+| `tables/posthoc_metrics.md` | Post hoc analyses of the stored partitions: the reduction step for five encoders, labelling accuracy with one label per cluster, and ARI and clustering accuracy for every row of Table I. |
 | `tables/model_checks.md` | Checks of the nested nuisance model on real and synthetic data; the ShipsEar class-by-date table. |
 | `plans/PLAN_HASHES.md` | SHA-256 digests of the sealed analysis plans. |
 | `code/c7minus.py` | Reference implementation of within-recording whitening (C7-), of the baseline C2, and of the k-means used in the paper. NumPy only. |
